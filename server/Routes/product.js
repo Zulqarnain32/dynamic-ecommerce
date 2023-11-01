@@ -27,9 +27,9 @@ const upload = multer({ dest: 'uploads/' });
 
 router.post('/add-products', upload.single('file'), async (req, res) => {
     try {
-        const { title, postData } = req.body;
+        const { productName, productDes } = req.body;
 
-        if (!title || !postData || !req.file) {
+        if (!productDes || !productName || !req.file) {
             return res.json({ message: "Fill form and upload a file" });
         }
 
@@ -39,13 +39,13 @@ router.post('/add-products', upload.single('file'), async (req, res) => {
 
         fs.renameSync(req.file.path, 'uploads/' + newFilename);
 
-        const post = {
-            title,
-            postData,
+        const product = {
+            productName,
+            productDes,
             image: newFilename 
         };
 
-        const result = await ProductModel.create(post);
+        const result = await ProductModel.create(product);
         res.json(result);
     } catch (error) {
         console.error(error);

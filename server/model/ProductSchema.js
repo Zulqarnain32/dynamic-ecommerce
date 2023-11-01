@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 const ProductSchema = mongoose.Schema({
-    title:{
+    productName:{
         type:String
     },
-    postData:{
+    productDes:{
         type:String
     },
     image:{

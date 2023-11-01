@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
 import axios from "axios";
-
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [totalProducts,setTotalProducts] = useState(0)
 
   useEffect(() => {
     axios
@@ -17,19 +16,37 @@ const Products = () => {
       .catch((err) => console.log(err));
   }, []);
 
+    const filteredProducts = products.filter((product) => {
+      return product.productName.toLowerCase().includes(searchQuery.toLowerCase());
+    });
 
+  useEffect(() => {
+    setTotalProducts(filteredProducts.length);
+  }, [filteredProducts]);
   return (
     <>
-      <div className="products-container">
-        <div>
-          {posts.map((product) => (
-            <div key={product._id} className="individual-product"> 
-               <h2 className="post-title">{product.title}</h2>
-               <p className="post-para">{product.postData}</p>
-               <img src={`http://localhost:5000/uploads/${product.image}`} alt="img" />             
-            </div>
-          ))}
-        </div>
+      <div className="search-div">
+        <input
+          type="text"
+          className="search-field"
+          placeholder="Search Product"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <p className="total-qty">{`${totalProducts == 0 ? `No Product found`:`Total Products are ${totalProducts}`}`}</p>
+      </div>
+      <div className="product-container">
+        {filteredProducts.map((product) => (
+          <div key={product._id} className="individual-product">
+            <img
+              src={`http://localhost:5000/uploads/${product.image}`}
+              className="product-img"
+            />
+            <h2 className="product-name">{product.productName}</h2>
+            <p className="product-des">{product.productDes}</p>
+            <button className="detail">Detail</button>
+          </div>
+        ))}
       </div>
     </>
   );

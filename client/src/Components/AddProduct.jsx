@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const AddProducts = () => {
-  const [title, setTitle] = useState("");
-  const [postData, setPostData] = useState("");
+const AddProduct = () => {
+  // const [title, setTitle] = useState("");
+  const [productName, setProductName] = useState("");
+  // const [postData, setPostData] = useState("");
+  const [productDes, setProductDes] = useState("");
   const [file, setImage] = useState(null); // Use null to store the file
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -12,14 +14,14 @@ const AddProducts = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!title || !postData) {
+    if (!productName || !productDes) {
       setError("Please fill in all the fields");
       return;
     }
 
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("postData", postData);
+    formData.append("productName", productName);
+    formData.append("productDes", productDes);
     formData.append("file", file);
 
     axios
@@ -38,21 +40,22 @@ const AddProducts = () => {
   return (
     <>
       <div className="create-post-container">
+        <div className="cr-post-container">
         <form className="post-form" onSubmit={handleSubmit}>
-          <h2 className="create-title">Create Post</h2>
-          <p>Title</p>
+          <h2 className="create-title">Add Product</h2>
+          <p>Name</p>
           <input
             type="text"
             className="post-field"
             placeholder="Title"
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setProductName(e.target.value)}
           />
-          <p>Add Text</p>
+          <p> Description</p>
           <textarea
             className="post-field"
             placeholder="Write here..."
-            onChange={(e) => setPostData(e.target.value)}
-            rows="10"
+            onChange={(e) => setProductDes(e.target.value)}
+            rows="7"
           ></textarea>
           <p>Image</p>
           <input
@@ -62,12 +65,13 @@ const AddProducts = () => {
           />
           <p className="error">{error}</p>
           <button type="submit" className="button btn">
-            Create
+            Add
           </button>
         </form>
+        </div>
       </div>
     </>
   );
 };
 
-export default AddProducts;
+export default AddProduct;

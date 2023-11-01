@@ -3,7 +3,7 @@ import Navbar from "./Components/Navbar";
 import Registration from "./Components/Registration";
 import Login from "./Components/Login";
 import Products from "./Components/Products";
-import AddProducts from "./Components/AddProducts";
+import AddProduct from "./Components/AddProduct";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import("./App.css");
 
@@ -19,7 +19,7 @@ const App = () => {
           <Route
             path="/add-product"
             element={
-              window.localStorage.length > 0 ? <AddProducts /> : <Login />
+              window.localStorage.length > 0 ? <AddProduct /> : <Login />
             }
           />
         </Routes>
